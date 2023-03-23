@@ -7,7 +7,7 @@ from compiler.terminal_compiler import TerminalCompiler
 import sys
 from parser import DFG_python,DFG_java,DFG_ruby,DFG_go,DFG_php,DFG_javascript,DFG_csharp
 sys.path.insert(0, '/home/grads/parshinshojaee/trl_code/trl_code/rl_code_repo/CodeBLEU/')
-from calc_code_bleu import calc_code_bleu
+from CodeBLEU.calc_code_bleu import calc_code_bleu
 
 
 

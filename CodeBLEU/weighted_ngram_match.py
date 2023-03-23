@@ -18,7 +18,7 @@ from fractions import Fraction
 import warnings
 from collections import Counter
 
-from utils import ngrams
+from CodeBLEU.utils import ngrams
 import pdb
 
 
