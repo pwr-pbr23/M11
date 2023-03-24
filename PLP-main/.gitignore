@@ -2,6 +2,10 @@
 line-code-vulnerability/data/
 source-code-vulnerability/data/
 
+#Models
+source-code-vulnerability/model/
+line-code-vulnerability/model/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
