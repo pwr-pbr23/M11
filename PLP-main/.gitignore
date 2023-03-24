@@ -1,3 +1,7 @@
+#Models
+source-code-vulnerability/model/
+line-code-vulnerability/model/
+
 #Data
 line-code-vulnerability/data/
 source-code-vulnerability/data/
