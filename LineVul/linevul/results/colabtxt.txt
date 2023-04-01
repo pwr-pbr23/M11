@@ -1,0 +1,9 @@
+03/31/2023 14:02:19 - INFO - __main__ -   ***** Running Test *****
+03/31/2023 14:02:19 - INFO - __main__ -     Num examples = 18864
+03/31/2023 14:02:19 - INFO - __main__ -     Batch size = 256
+03/31/2023 14:06:28 - INFO - __main__ -   ***** Test results *****
+03/31/2023 14:06:28 - INFO - __main__ -     test_accuracy = 0.9891
+03/31/2023 14:06:28 - INFO - __main__ -     test_f1 = 0.8966
+03/31/2023 14:06:28 - INFO - __main__ -     test_precision = 0.958
+03/31/2023 14:06:28 - INFO - __main__ -     test_recall = 0.8427
+03/31/2023 14:06:28 - INFO - __main__ -     test_threshold = 0.5
