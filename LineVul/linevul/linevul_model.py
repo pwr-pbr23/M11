@@ -3,6 +3,7 @@ import torch.nn as nn
 from torch.nn import CrossEntropyLoss
 from transformers import RobertaForSequenceClassification
 
+
 class RobertaClassificationHead(nn.Module):
     """Head for sentence-level classification tasks."""
     def __init__(self, config):
@@ -19,16 +20,44 @@ class RobertaClassificationHead(nn.Module):
         x = self.dropout(x)
         x = self.out_proj(x)
         return x
-        
+
+
+class Net(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.window = 100
+        self.hidden_size = config.hidden_size
+        self.input = nn.Sequential(nn.Linear(self.hidden_size, self.hidden_size),
+                                   nn.ReLU(),
+                                   nn.Linear(self.hidden_size, self.hidden_size), nn.ReLU())
+        self.num_layers = 2
+        self.rnn = nn.LSTM(self.hidden_size, self.hidden_size, num_layers=self.num_layers, batch_first=True, dropout=0.2, bidirectional=True)
+        self.output = nn.Sequential(nn.Linear(self.hidden_size, self.hidden_size),
+                                    nn.ReLU(),
+                                    nn.Linear(self.hidden_size, 2))
+
+    def forward(self, features, **kwargs):
+        self.window = features.size()[0]
+        H = self.input(features)
+        y, (h, c) = self.rnn(H, (self.init_hidden(), self.init_hidden()))
+        return self.output(torch.cat((y[:, 0, 500:], y[:, -1, :500]), 1))
+
+    def init_hidden(self):
+        if torch.cuda.is_available():
+            return torch.zeros((2 * self.num_layers, self.window, self.hidden_size)).cuda()
+        else:
+            return torch.zeros((2 * self.num_layers, self.window, self.hidden_size))
+
+
 class Model(RobertaForSequenceClassification):   
     def __init__(self, encoder, config, tokenizer, args):
         super(Model, self).__init__(config=config)
         self.encoder = encoder
         self.tokenizer = tokenizer
+        # self.classifier = Net(config)
         self.classifier = RobertaClassificationHead(config)
         self.args = args
-    
-        
+
     def forward(self, input_embed=None, labels=None, output_attentions=False, input_ids=None):
         if output_attentions:
             if input_ids is not None:
