@@ -38,9 +38,10 @@ class Net(nn.Module):
 
     def forward(self, features, **kwargs):
         self.window = features.size()[0]
-        H = self.input(features)
-        y, (h, c) = self.rnn(H, (self.init_hidden(), self.init_hidden()))
-        return self.output(torch.cat((y[:, 0, 500:], y[:, -1, :500]), 1))
+        x = features[:, 0, :]
+        x = self.input(x)
+        x = self.rnn(x)
+        return self.output(x)
 
     def init_hidden(self):
         if torch.cuda.is_available():
