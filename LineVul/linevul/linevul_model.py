@@ -27,20 +27,23 @@ class Net(nn.Module):
         super().__init__()
         self.window = 100
         self.hidden_size = config.hidden_size
-        self.input = nn.Sequential(nn.Linear(self.hidden_size, self.hidden_size),
+        self.input = nn.Sequential(nn.Linear(self.hidden_size, 1000),
                                    nn.ReLU(),
-                                   nn.Linear(self.hidden_size, self.hidden_size), nn.ReLU())
+                                   nn.Linear(1000, 500), nn.ReLU())
         self.num_layers = 2
-        self.rnn = nn.LSTM(self.hidden_size, self.hidden_size, num_layers=self.num_layers, batch_first=True, dropout=0.2, bidirectional=True)
-        self.output = nn.Sequential(nn.Linear(self.hidden_size, self.hidden_size),
+        self.rnn = nn.LSTM(500, 500, num_layers=self.num_layers, batch_first=True,
+                           dropout=0.2, bidirectional=True)
+        self.output = nn.Sequential(nn.Linear(1000, 500),
                                     nn.ReLU(),
-                                    nn.Linear(self.hidden_size, 2))
+                                    nn.Linear(500, 2))
 
     def forward(self, features, **kwargs):
         self.window = features.size()[0]
         x = features[:, 0, :]
         x = self.input(x)
-        x = self.rnn(x)
+        x = x.unsqueeze(1).repeat(1, self.window, 1)
+        x, _ = self.rnn(x)
+        x = x[:, -1]
         return self.output(x)
 
     def init_hidden(self):
