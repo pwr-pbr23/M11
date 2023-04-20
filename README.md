@@ -3,6 +3,8 @@ PBR23M11
 
 Paper #1: https://paperswithcode.com/paper/a-hierarchical-deep-neural-network-for
 
+LineVul: https://www.researchgate.net/publication/359402890_LineVul_A_Transformer-based_Line-Level_Vulnerability_Prediction
+
 Github Project: https://github.com/users/nadolnyjakub/projects/3
 
 Overleaf: https://www.overleaf.com/project/6401fb8af1232e4844c6bca3
