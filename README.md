@@ -35,3 +35,34 @@ Zalecamy uruchomienie w Google Colab ze środowiskiem GPU.
 !pip install pandas
 !pip install tokenizers```
 
+4. Pobrać datasety. Uwaga, łącznie ważą ok. 20GB ale Google Colab daje dużą prędkość pobierania.
+```
+%cd data
+%cd big-vul_dataset
+!gdown https://drive.google.com/uc?id=1h0iFJbc5DGXCXXvvR6dru_Dms_b2zW4V
+%cd ../..
+```
+```
+%cd data
+%cd big-vul_dataset
+!gdown https://drive.google.com/uc?id=1ldXyFvHG41VMrm260cK_JEPYqeb6e6Yw
+!gdown https://drive.google.com/uc?id=1yggncqivMcP0tzbh8-8Eu02Edwcs44WZ
+%cd ../..
+```
+```
+%cd data
+%cd big-vul_dataset
+!gdown https://drive.google.com/uc?id=10-kjbsA806Zdk54Ax8J3WvLKGTzN8CMX
+%cd ../..
+```
+
+# Nasze obecne wyniki po podmianie modelu i 1 epoce trenowaia:
+***** Running Test *****
+  Num examples = 18864
+    Batch size = 256
+***** Test results *****
+ test_accuracy = 0.9867
+       test_f1 = 0.8709
+test_precision = 0.9569
+   test_recall = 0.7991
+test_threshold = 0.5
