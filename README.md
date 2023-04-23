@@ -14,3 +14,24 @@ Colab: https://colab.research.google.com/drive/1Mc7X-9XGZCP0gRZx4Xi17qpj9Hk-dvkU
 Colab output: https://drive.google.com/drive/folders/1-1w-JAxryaX3ogvdInPaeUQYlSqoTk-B?usp=sharing
 
 Colab LineVul: https://colab.research.google.com/drive/1pbdftiX2dLcQbAuDYeSWUgnxHS8pLxrT?usp=sharing
+
+# Instrukcja reprodukcji
+
+Zaleca się uruchomienie programu w środowisku chmurowym z dostępem do GPU.
+Czas potrzebny na przeprowadzenie eksperymentów to około 2h na trenowanie i 15 minut na testy.
+Zalecamy uruchomienie w Google Colab ze środowiskiem GPU.
+
+1. Skolonować repozytorium, a konkretnie branch LineVul - to na nim obecnie pracujemy.
+2. Przejść do katalogu: `%cd /content/M11/LineVul`
+3. Zainstalować potrzebne pakiety:
+```!pip install gdown
+!pip install transformers
+!pip install captum
+!pip install torch
+!pip install numpy
+!pip install tqdm
+!pip install pickle
+!pip install sklearn
+!pip install pandas
+!pip install tokenizers```
+
