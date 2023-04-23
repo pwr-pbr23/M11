@@ -22,8 +22,11 @@ Czas potrzebny na przeprowadzenie eksperymentów to około 2h na trenowanie i 15
 Zalecamy uruchomienie w Google Colab ze środowiskiem GPU.
 
 1. Skolonować repozytorium, a konkretnie branch LineVul - to na nim obecnie pracujemy.
-2. Przejść do katalogu: `%cd /content/M11/LineVul`
-3. Zainstalować potrzebne pakiety:
+```
+!git clone -b LineVul https://github.com/pwr-pbr23/M11.git
+```
+3. Przejść do katalogu: `%cd /content/M11/LineVul`
+4. Zainstalować potrzebne pakiety:
 ```!pip install gdown
 !pip install transformers
 !pip install captum
@@ -54,6 +57,62 @@ Zalecamy uruchomienie w Google Colab ze środowiskiem GPU.
 %cd big-vul_dataset
 !gdown https://drive.google.com/uc?id=10-kjbsA806Zdk54Ax8J3WvLKGTzN8CMX
 %cd ../..
+```
+
+5. w pliku linevul_model.py aby użyćnaszego modelu należy odkomentować i zakomentować odpowiednie linijki:
+
+```
+Linia 56
+class Model(RobertaForSequenceClassification):   
+    def __init__(self, encoder, config, tokenizer, args):
+        super(Model, self).__init__(config=config)
+        self.encoder = encoder
+        self.tokenizer = tokenizer
+        # self.classifier = Net(config) # nasz model
+        self.classifier = RobertaClassificationHead(config) # model bazowy
+        self.args = args
+```
+
+6. Uruchamianie trenowania:
+```
+%cd linevul
+!python linevul_main.py \
+  --output_dir=./saved_models \
+  --model_type=roberta \
+  --tokenizer_name=microsoft/codebert-base \
+  --model_name_or_path=microsoft/codebert-base \
+  --do_train \
+  --do_test \
+  --train_data_file=../data/big-vul_dataset/train.csv \
+  --eval_data_file=../data/big-vul_dataset/val.csv \
+  --test_data_file=../data/big-vul_dataset/test.csv \
+  --epochs 1 \
+  --block_size 256 \
+  --train_batch_size 16 \
+  --eval_batch_size 16 \
+  --learning_rate 2e-5 \
+  --max_grad_norm 1.0 \
+  --evaluate_during_training \
+  --seed 123456  2>&1 | tee train.log
+%cd ..
+```
+
+7. Testy:
+```
+%cd linevul
+!python linevul_main.py \
+  --model_name=model.bin \
+  --output_dir=./saved_models \
+  --model_type=roberta \
+  --tokenizer_name=microsoft/codebert-base \
+  --model_name_or_path=microsoft/codebert-base \
+  --do_test \
+  --train_data_file=../data/big-vul_dataset/train.csv \
+  --eval_data_file=../data/big-vul_dataset/val.csv \
+  --test_data_file=../data/big-vul_dataset/test.csv \
+  --block_size 256 \
+  --eval_batch_size 256
+%cd ..
 ```
 
 # Nasze obecne wyniki po podmianie modelu i 1 epoce trenowaia:
