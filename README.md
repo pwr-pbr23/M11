@@ -116,7 +116,7 @@ class Model(RobertaForSequenceClassification):
 %cd ..
 ```
 
-# Nasze obecne wyniki po podmianie modelu i 1 epoce trenowaia:
+# Nasze obecne wyniki po podmianie modelu i 1 epoce uczenia:
 ```
 ***** Running Test *****
   Num examples = 18864
