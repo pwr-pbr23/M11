@@ -1,4 +1,4 @@
-# A Hierarchical Deep Neural Network for Detecting Lines of Codes with Vulnerabilities
+# Zastosowanie Algorytmów Uczenia Maszynowego w Celu Detekcji Kodu Posiadającego Luki Bezpieczeństwa
 PBR23M11
 
 Paper #1: https://paperswithcode.com/paper/a-hierarchical-deep-neural-network-for
@@ -9,13 +9,14 @@ Github Project: https://github.com/users/nadolnyjakub/projects/3
 
 Overleaf: https://www.overleaf.com/project/6401fb8af1232e4844c6bca3
 
-Colab: https://colab.research.google.com/drive/1Mc7X-9XGZCP0gRZx4Xi17qpj9Hk-dvkU?usp=sharing
-
-Colab output: https://drive.google.com/drive/folders/1-1w-JAxryaX3ogvdInPaeUQYlSqoTk-B?usp=sharing
+Colab Paper #1: https://colab.research.google.com/drive/1Mc7X-9XGZCP0gRZx4Xi17qpj9Hk-dvkU?usp=sharing
 
 Colab LineVul: https://colab.research.google.com/drive/1pbdftiX2dLcQbAuDYeSWUgnxHS8pLxrT?usp=sharing
 
-# Instrukcja reprodukcji
+Colab output(wyuczone modele): https://drive.google.com/drive/folders/1-1w-JAxryaX3ogvdInPaeUQYlSqoTk-B?usp=sharing
+
+
+# Instrukcja reprodukcji LineVul
 
 Zaleca się uruchomienie programu w środowisku chmurowym z dostępem do GPU.
 Czas potrzebny na przeprowadzenie eksperymentów to około 2h na trenowanie i 15 minut na testy.
@@ -60,7 +61,7 @@ Zalecamy uruchomienie w Google Colab ze środowiskiem GPU.
 %cd ../..
 ```
 
-5. w pliku linevul_model.py aby użyćnaszego modelu należy odkomentować i zakomentować odpowiednie linijki:
+5. w pliku linevul_model.py aby użyć naszego modelu należy odkomentować i zakomentować odpowiednie linijki:
 
 ```
 Linia 56
