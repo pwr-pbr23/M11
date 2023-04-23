@@ -117,6 +117,7 @@ class Model(RobertaForSequenceClassification):
 ```
 
 # Nasze obecne wyniki po podmianie modelu i 1 epoce trenowaia:
+```
 ***** Running Test *****
   Num examples = 18864
     Batch size = 256
@@ -126,3 +127,4 @@ class Model(RobertaForSequenceClassification):
 test_precision = 0.9569
    test_recall = 0.7991
 test_threshold = 0.5
+```
