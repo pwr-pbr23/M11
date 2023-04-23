@@ -36,7 +36,8 @@ Zalecamy uruchomienie w Google Colab ze środowiskiem GPU.
 !pip install pickle
 !pip install sklearn
 !pip install pandas
-!pip install tokenizers```
+!pip install tokenizers
+```
 
 4. Pobrać datasety. Uwaga, łącznie ważą ok. 20GB ale Google Colab daje dużą prędkość pobierania.
 ```
