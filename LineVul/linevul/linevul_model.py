@@ -53,12 +53,26 @@ class Net(nn.Module):
             return torch.zeros((2 * self.num_layers, self.window, self.hidden_size))
 
 
+class SVM(nn.Module):
+    def __init__(self, input_size):
+        super(SVM, self).__init__()
+        self.linear = nn.Linear(input_size, 1)
+
+    def forward(self, x):
+        return self.linear(x)
+
+    def hinge_loss(self, output, target):
+        hinge_loss = torch.mean(torch.max(torch.zeros_like(output), 1 - target * output))
+        return hinge_loss
+
+
 class Model(RobertaForSequenceClassification):   
     def __init__(self, encoder, config, tokenizer, args):
         super(Model, self).__init__(config=config)
         self.encoder = encoder
         self.tokenizer = tokenizer
         # self.classifier = Net(config)
+        self.classifier = SVM(config)
         self.classifier = RobertaClassificationHead(config)
         self.args = args
 
