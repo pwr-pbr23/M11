@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from torch.nn import CrossEntropyLoss
+from torch.nn import CrossEntropyLoss, HingeLoss
 from transformers import RobertaForSequenceClassification
 
 
@@ -53,9 +53,9 @@ class Net(nn.Module):
             return torch.zeros((2 * self.num_layers, self.window, self.hidden_size))
 
 
-class SVM(nn.Module):
+class LinearSVM(nn.Module):
     def __init__(self, input_size):
-        super(SVM, self).__init__()
+        super(LinearSVM, self).__init__()
         self.linear = nn.Linear(input_size, 1)
 
     def forward(self, x):
@@ -72,8 +72,8 @@ class Model(RobertaForSequenceClassification):
         self.encoder = encoder
         self.tokenizer = tokenizer
         # self.classifier = Net(config)
-        self.classifier = SVM(config)
-        self.classifier = RobertaClassificationHead(config)
+        self.classifier = LinearSVM(config)
+        # self.classifier = RobertaClassificationHead(config)
         self.args = args
 
     def forward(self, input_embed=None, labels=None, output_attentions=False, input_ids=None):
@@ -100,7 +100,8 @@ class Model(RobertaForSequenceClassification):
             logits = self.classifier(outputs)
             prob = torch.softmax(logits, dim=-1)
             if labels is not None:
-                loss_fct = CrossEntropyLoss()
+                loss_fct = HingeLoss(task="binary")
+                # loss_fct = CrossEntropyLoss()
                 loss = loss_fct(logits, labels)
                 return loss, prob
             else:
