@@ -55,15 +55,12 @@ class Net(nn.Module):
 
 class LinearSVM(nn.Module):
     def __init__(self, input_size):
-        super(LinearSVM, self).__init__()
-        self.linear = nn.Linear(input_size, 1)
+        super().__init__()
+        self.linear = nn.Linear(input_size, 2)
 
-    def forward(self, x):
+    def forward(self, features, **kwargs):
+        x = features[:, 0, :]
         return self.linear(x)
-
-    def hinge_loss(self, output, target):
-        hinge_loss = torch.mean(torch.max(torch.zeros_like(output), 1 - target * output))
-        return hinge_loss
 
 
 class Model(RobertaForSequenceClassification):   
