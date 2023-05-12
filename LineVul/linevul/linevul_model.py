@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from torch.nn import CrossEntropyLoss, HingeEmbeddingLoss
+from torch.nn import CrossEntropyLoss, MultiMarginLoss
 from transformers import RobertaForSequenceClassification
 
 
@@ -84,7 +84,7 @@ class Model(RobertaForSequenceClassification):
             logits = self.classifier(last_hidden_state)
             prob = torch.softmax(logits, dim=-1)
             if labels is not None:
-                loss_fct = HingeEmbeddingLoss()
+                loss_fct = MultiMarginLoss()
                 # loss_fct = CrossEntropyLoss()
                 loss = loss_fct(logits, labels)
                 return loss, prob, attentions
@@ -98,7 +98,7 @@ class Model(RobertaForSequenceClassification):
             logits = self.classifier(outputs)
             prob = torch.softmax(logits, dim=-1)
             if labels is not None:
-                loss_fct = HingeEmbeddingLoss()
+                loss_fct = MultiMarginLoss()
                 # loss_fct = CrossEntropyLoss()
                 loss = loss_fct(logits, labels)
                 return loss, prob
