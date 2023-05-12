@@ -133,7 +133,7 @@ def train(args, train_dataset, model, tokenizer, eval_dataset):
     ]
 
     # Stochastic Gradient optimizer for SVM
-    optimizer = optim.SGD(model.parameters(), lr=args.lr)
+    optimizer = optim.SGD(model.parameters(), lr=args.learning_rate)
     # optimizer = AdamW(optimizer_grouped_parameters, lr=args.learning_rate, eps=args.adam_epsilon)
 
     scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=args.warmup_steps,
