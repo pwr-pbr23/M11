@@ -117,7 +117,7 @@ class Model(RobertaForSequenceClassification):
 %cd ..
 ```
 
-# Nasze obecne wyniki po podmianie modelu i 1 epoce uczenia:
+# Wyniki dla modelu LSTM i 1 epoce uczenia:
 ```
 ***** Running Test *****
   Num examples = 18864
@@ -129,3 +129,29 @@ test_precision = 0.9569
    test_recall = 0.7991
 test_threshold = 0.5
 ```
+
+# Wyniki dla modelu LSTM i 5 epokach
+```
+***** Running Test *****
+   Num examples = 18864
+     Batch size = 256
+***** Test results *****
+  test_accuracy = 0.9894
+        test_f1 = 0.8991
+ test_precision = 0.9612
+    test_recall = 0.8445
+ test_threshold = 0.5
+ ```
+ 
+ # Wyniki dla modelu Linear SVM i 4 epokach
+```
+***** Running Test *****
+   Num examples = 18864
+     Batch size = 256
+***** Test results *****
+  test_accuracy = 0.9891
+        test_f1 = 0.8963
+ test_precision = 0.9560
+    test_recall = 0.8436
+ test_threshold = 0.5
+ ```
