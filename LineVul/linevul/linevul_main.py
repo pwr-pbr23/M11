@@ -35,6 +35,7 @@ import pandas as pd
 # metrics
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
 from sklearn.metrics import auc
+from sklearn.metrics import matthews_corrcoef
 # model reasoning
 from captum.attr import LayerIntegratedGradients, DeepLift, DeepLiftShap, GradientShap, Saliency
 # word-level tokenizer
@@ -241,12 +242,14 @@ def evaluate(args, model, tokenizer, eval_dataset, eval_when_training=False):
     y_preds = logits[:,1]>best_threshold
     recall = recall_score(y_trues, y_preds)
     precision = precision_score(y_trues, y_preds)   
-    f1 = f1_score(y_trues, y_preds)             
+    f1 = f1_score(y_trues, y_preds)
+    mcc = matthews_corrcoef(y_trues, y_preds)
     result = {
         "eval_recall": float(recall),
         "eval_precision": float(precision),
         "eval_f1": float(f1),
-        "eval_threshold":best_threshold,
+        "eval_mcc": float(mcc),
+        "eval_threshold": best_threshold,
     }
 
     logger.info("***** Eval results *****")
@@ -288,13 +291,15 @@ def test(args, model, tokenizer, test_dataset, best_threshold=0.5):
     acc = accuracy_score(y_trues, y_preds)
     recall = recall_score(y_trues, y_preds)
     precision = precision_score(y_trues, y_preds)   
-    f1 = f1_score(y_trues, y_preds)             
+    f1 = f1_score(y_trues, y_preds)
+    mcc = matthews_corrcoef(y_trues, y_preds)
     result = {
         "test_accuracy": float(acc),
         "test_recall": float(recall),
         "test_precision": float(precision),
         "test_f1": float(f1),
-        "test_threshold":best_threshold,
+        "test_mcc": float(mcc),
+        "test_threshold": best_threshold,
     }
 
     logger.info("***** Test results *****")
