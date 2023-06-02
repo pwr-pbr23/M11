@@ -296,13 +296,15 @@ def test(args, model, tokenizer, test_dataset, best_threshold=0.5):
     acc = accuracy_score(y_trues, y_preds)
     recall = recall_score(y_trues, y_preds)
     precision = precision_score(y_trues, y_preds)   
-    f1 = f1_score(y_trues, y_preds)             
+    f1 = f1_score(y_trues, y_preds)
+    mcc = matthews_corrcoef(y_trues, y_preds)
     result = {
         "test_accuracy": float(acc),
         "test_recall": float(recall),
         "test_precision": float(precision),
         "test_f1": float(f1),
-        "test_threshold":best_threshold,
+        "test_mcc": float(mcc),
+        "test_threshold": best_threshold,
     }
 
     logger.info("***** Test results *****")
