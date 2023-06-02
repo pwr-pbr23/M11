@@ -138,6 +138,7 @@ test_threshold = 0.5
 ***** Test results *****
   test_accuracy = 0.9894
         test_f1 = 0.8991
+       test_mcc = 0.8956
  test_precision = 0.9612
     test_recall = 0.8445
  test_threshold = 0.5
