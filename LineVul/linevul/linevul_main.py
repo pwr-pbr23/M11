@@ -32,6 +32,8 @@ from tqdm import tqdm
 import multiprocessing
 from linevul_model import Model
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 # metrics
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
 from sklearn.metrics import auc
@@ -40,6 +42,7 @@ from sklearn.metrics import matthews_corrcoef
 from captum.attr import LayerIntegratedGradients, DeepLift, DeepLiftShap, GradientShap, Saliency
 # word-level tokenizer
 from tokenizers import Tokenizer
+import joblib
 
 logger = logging.getLogger(__name__)
 
@@ -81,7 +84,6 @@ class TextDataset(Dataset):
     def __getitem__(self, i):       
         return torch.tensor(self.examples[i].input_ids),torch.tensor(self.examples[i].label)
 
-
 def convert_examples_to_features(func, label, tokenizer, args):
     if args.use_word_level_tokenizer:
         encoded = tokenizer.encode(func)
@@ -112,7 +114,56 @@ def set_seed(args):
     if args.n_gpu > 0:
         torch.cuda.manual_seed_all(args.seed)
 
+
 def train(args, train_dataset, model, tokenizer, eval_dataset):
+
+    X_train, X_test, y_train, y_test = train_test_split(train_dataset, test_size=0.2, random_state=42)
+
+    # Create a DataLoader for loading the training data in batches
+    batch_size = 64
+    train_loader = DataLoader(X_train, batch_size=batch_size, shuffle=True)
+
+    # Train the Random Forest model
+    n_estimators = 100  # Number of decision trees in the forest
+    max_depth = 10  # Maximum depth of each decision tree
+    random_state = 42  # Random seed for reproducibility
+    rf_model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, random_state=random_state)
+    for batch in train_loader:
+        batch_X, batch_y = batch
+        rf_model.partial_fit(batch_X, batch_y)
+
+    # Save the trained model to a .bin file
+    checkpoint_prefix = 'checkpoint-best-f1'
+    output_dir = os.path.join(args.output_dir, '{}'.format(checkpoint_prefix))
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    model_to_save = model.module if hasattr(model, 'module') else model
+    output_dir = os.path.join(output_dir, '{}'.format(args.model_name))
+    torch.save(model_to_save.state_dict(), output_dir)
+    logger.info("Saving model checkpoint to %s", output_dir)
+    joblib.dump(rf_model, output_dir)
+
+    # Make predictions on the test set
+    y_preds = rf_model.predict(X_test)
+
+    # Calculate metrics
+    recall = recall_score(y_test, y_preds)
+    precision = precision_score(y_test, y_preds)
+    f1 = f1_score(y_test, y_preds)
+    mcc = matthews_corrcoef(y_test, y_preds)
+    result = {
+        "eval_recall": float(recall),
+        "eval_precision": float(precision),
+        "eval_f1": float(f1),
+        "eval_mcc": float(mcc),
+    }
+
+    logger.info("***** Eval results *****")
+    for key in sorted(result.keys()):
+        logger.info("  %s = %s", key, str(round(result[key],4)))
+
+
+def train_nn(args, train_dataset, model, tokenizer, eval_dataset):
     """ Train the model """
     # build dataloader
     train_sampler = RandomSampler(train_dataset)
