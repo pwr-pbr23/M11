@@ -116,21 +116,21 @@ def set_seed(args):
 
 
 def train(args, train_dataset, model, tokenizer, eval_dataset):
+    # Convert the training dataset to NumPy arrays
+    train_data = []
+    for i in range(len(train_dataset)):
+        x, y = train_dataset[i]
+        train_data.append((x.numpy(), y.numpy()))
+    train_data = np.array(train_data, dtype=object)
 
-    X_train, X_test, y_train, y_test = train_test_split(train_dataset, test_size=0.2, random_state=42)
-
-    # Create a DataLoader for loading the training data in batches
-    batch_size = 64
-    train_loader = DataLoader(X_train, batch_size=batch_size, shuffle=True)
+    X_train, X_test, y_train, y_test = train_test_split(train_data, test_size=0.2, random_state=42)
 
     # Train the Random Forest model
     n_estimators = 100  # Number of decision trees in the forest
     max_depth = 10  # Maximum depth of each decision tree
     random_state = 42  # Random seed for reproducibility
     rf_model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, random_state=random_state)
-    for batch in train_loader:
-        batch_X, batch_y = batch
-        rf_model.partial_fit(batch_X, batch_y)
+    rf_model.fit(list(X_train), list(y_train))
 
     # Save the trained model to a .bin file
     checkpoint_prefix = 'checkpoint-best-f1'
@@ -144,13 +144,13 @@ def train(args, train_dataset, model, tokenizer, eval_dataset):
     joblib.dump(rf_model, output_dir)
 
     # Make predictions on the test set
-    y_preds = rf_model.predict(X_test)
+    y_preds = rf_model.predict(list(X_test))
 
     # Calculate metrics
-    recall = recall_score(y_test, y_preds)
-    precision = precision_score(y_test, y_preds)
-    f1 = f1_score(y_test, y_preds)
-    mcc = matthews_corrcoef(y_test, y_preds)
+    recall = recall_score(list(y_test), y_preds)
+    precision = precision_score(list(y_test), y_preds)
+    f1 = f1_score(list(y_test), y_preds)
+    mcc = matthews_corrcoef(list(y_test), y_preds)
     result = {
         "eval_recall": float(recall),
         "eval_precision": float(precision),
