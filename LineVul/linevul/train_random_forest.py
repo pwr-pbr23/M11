@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
 from sklearn.metrics import matthews_corrcoef
 import json
+import time
 
 
 def save_array_to_file(array, file_path):
@@ -21,12 +22,14 @@ if __name__ == '__main__':
     y_data = load_array_from_file("y_array.npy")
     X_train, X_test, y_train, y_test = train_test_split(X_data, y_data, test_size=0.2, random_state=42)
 
-    n_estimators = 100  # Number of decision trees in the forest
-    max_depth = 10  # Maximum depth of each decision tree
+    n_estimators = 1000  # Number of decision trees in the forest
+    max_depth = 150  # Maximum depth of each decision tree
     random_state = 42  # Random seed for reproducibility
     rf_model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, random_state=random_state)
     print("TRAINING STARTED!")
+    start_time = time.time()
     rf_model.fit(X_train, y_train)
+    end_time = time.time()
     print("TRAINING ENDED!")
     # Make predictions on the test set
     y_preds = rf_model.predict(X_test)
@@ -37,6 +40,7 @@ if __name__ == '__main__':
     f1 = f1_score(y_test, y_preds)
     mcc = matthews_corrcoef(y_test, y_preds)
     result = {
+        "training_time": f'{end_time - start_time} seconds',
         "eval_recall": float(recall),
         "eval_precision": float(precision),
         "eval_f1": float(f1),
