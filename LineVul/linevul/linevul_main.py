@@ -82,7 +82,8 @@ class TextDataset(Dataset):
         return len(self.examples)
 
     def __getitem__(self, i):       
-        return torch.tensor(self.examples[i].input_ids),torch.tensor(self.examples[i].label)
+        return self.examples[i].input_ids, self.examples[i].label
+
 
 def convert_examples_to_features(func, label, tokenizer, args):
     if args.use_word_level_tokenizer:
@@ -116,21 +117,39 @@ def set_seed(args):
 
 
 def train(args, train_dataset, model, tokenizer, eval_dataset):
-    # Convert the training dataset to NumPy arrays
-    train_data = []
+    # Convert the training dataset
+    X_train = []
+    y_train = []
+    index = 0
     for i in range(len(train_dataset)):
         x, y = train_dataset[i]
-        train_data.append((x.numpy(), y.numpy()))
-    train_data = np.array(train_data, dtype=object)
+        X_train.append(x)
+        y_train.append(y)
 
-    X_train, X_test, y_train, y_test = train_test_split(train_data, test_size=0.2, random_state=42)
+    print(f"Dataset length: {len(X_train)}")
+
+    np.save("X_array.npy", X_train)
+    print(f"X array saved")
+
+    np.save("y_array.npy", y_train)
+    print(f"y array saved")
+
+    # Convert the evaluation dataset
+    X_test = []
+    y_test = []
+    for i in range(len(eval_dataset)):
+        x, y = eval_dataset[i]
+        X_test.append(x)
+        y_test.append(y)
 
     # Train the Random Forest model
     n_estimators = 100  # Number of decision trees in the forest
     max_depth = 10  # Maximum depth of each decision tree
     random_state = 42  # Random seed for reproducibility
     rf_model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, random_state=random_state)
-    rf_model.fit(list(X_train), list(y_train))
+    print("TRAINING STARTED!")
+    rf_model.fit(X_train, y_train)
+    print("TRAINING ENDED!")
 
     # Save the trained model to a .bin file
     checkpoint_prefix = 'checkpoint-best-f1'
@@ -144,13 +163,13 @@ def train(args, train_dataset, model, tokenizer, eval_dataset):
     joblib.dump(rf_model, output_dir)
 
     # Make predictions on the test set
-    y_preds = rf_model.predict(list(X_test))
+    y_preds = rf_model.predict(X_test)
 
     # Calculate metrics
-    recall = recall_score(list(y_test), y_preds)
-    precision = precision_score(list(y_test), y_preds)
-    f1 = f1_score(list(y_test), y_preds)
-    mcc = matthews_corrcoef(list(y_test), y_preds)
+    recall = recall_score(y_test, y_preds)
+    precision = precision_score(y_test, y_preds)
+    f1 = f1_score(y_test, y_preds)
+    mcc = matthews_corrcoef(y_test, y_preds)
     result = {
         "eval_recall": float(recall),
         "eval_precision": float(precision),
@@ -160,7 +179,7 @@ def train(args, train_dataset, model, tokenizer, eval_dataset):
 
     logger.info("***** Eval results *****")
     for key in sorted(result.keys()):
-        logger.info("  %s = %s", key, str(round(result[key],4)))
+        logger.info("  %s = %s", key, str(round(result[key], 4)))
 
 
 def train_nn(args, train_dataset, model, tokenizer, eval_dataset):
