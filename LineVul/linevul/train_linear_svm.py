@@ -44,6 +44,6 @@ if __name__ == '__main__':
         "eval_mcc": float(mcc),
     }
     print(result)
-    with open('random_forest_results.json', 'w') as file:
+    with open('linear_svm_results.json', 'w') as file:
         json.dump(result, file)
-    print(f"Result saved to 'random_forest_results.json'")
+    print(f"Result saved to 'linear_svm_results.json'")
