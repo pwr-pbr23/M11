@@ -21,7 +21,11 @@ if __name__ == '__main__':
     y_data = load_array_from_file("y_array.npy")
     X_train, X_test, y_train, y_test = train_test_split(X_data, y_data, test_size=0.2, random_state=42)
 
-    svm_model = LinearSVC()
+    penalty = 'l1'  # {‘l1’, ‘l2’}
+    loss = 'hinge'  # {‘hinge’, ‘squared_hinge’}
+    dual = False
+    max_iter = 1000
+    svm_model = LinearSVC(penalty=penalty, loss= loss, dual=dual, max_iter=max_iter)
     print("TRAINING STARTED!")
     start_time = time.time()
     svm_model.fit(X_train, y_train)
