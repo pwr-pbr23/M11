@@ -23,9 +23,10 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = train_test_split(X_data, y_data, test_size=0.2, random_state=42)
 
     n_estimators = 1000  # Number of decision trees in the forest
+    criterion = 'gini'  # {“gini”, “entropy”, “log_loss”}
     max_depth = 150  # Maximum depth of each decision tree
     random_state = 42  # Random seed for reproducibility
-    rf_model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, random_state=random_state)
+    rf_model = RandomForestClassifier(criterion=criterion, n_estimators=n_estimators, max_depth=max_depth, random_state=random_state)
     print("TRAINING STARTED!")
     start_time = time.time()
     rf_model.fit(X_train, y_train)
