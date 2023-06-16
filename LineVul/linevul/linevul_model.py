@@ -52,6 +52,23 @@ class Net(nn.Module):
         else:
             return torch.zeros((2 * self.num_layers, self.window, self.hidden_size))
 
+class ANFIS(nn.Module):
+    def __init__(self, num_rules, num_inputs):
+        super(ANFIS, self).__init__()
+        self.num_rules = num_rules
+        self.num_inputs = num_inputs
+        self.mfs = nn.Parameter(torch.randn(num_rules, num_inputs))
+        self.consequents = nn.Parameter(torch.randn(num_rules))
+
+    def forward(self, x):
+        batch_size = x.size(0)
+        inputs = x.unsqueeze(1).expand(-1, self.num_rules, -1)
+        mfs_out = torch.exp(-0.5 * torch.sum((inputs - self.mfs)**2, dim=2))
+        normalized_mfs = mfs_out / torch.sum(mfs_out, dim=1, keepdim=True)
+        weighted_mfs = normalized_mfs.unsqueeze(2).expand(-1, -1, self.num_inputs) * inputs
+        rule_sums = torch.sum(weighted_mfs, dim=1)
+        out = torch.sum(self.consequents * rule_sums, dim=1)
+        return out
 
 class Model(RobertaForSequenceClassification):   
     def __init__(self, encoder, config, tokenizer, args):
