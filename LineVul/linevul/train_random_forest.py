@@ -5,6 +5,7 @@ from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_sc
 from sklearn.metrics import matthews_corrcoef
 import json
 import time
+from sklearn.model_selection import GridSearchCV
 
 
 def save_array_to_file(array, file_path):
@@ -27,13 +28,37 @@ if __name__ == '__main__':
     max_depth = 150  # Maximum depth of each decision tree
     random_state = 42  # Random seed for reproducibility
     rf_model = RandomForestClassifier(criterion=criterion, n_estimators=n_estimators, max_depth=max_depth, random_state=random_state)
+    
+    rf = RandomForestClassifier()
+
+    param_grid = {
+      'n_estimators': [1000, 1500, 2000],              # Number of trees
+      'criterion': ['gini', 'entropy', 'log_loss'],
+      'max_depth': [None, 5, 10],                    # Maximum depth of trees
+      'min_samples_leaf': [1, 2, 4],                 # Minimum samples for a leaf node
+      'max_features': ['auto', 'sqrt', 'log2']       # Maximum number of features to consider
+    }
+
+    # Perform a grid search to find the best parameters
+    grid_search = GridSearchCV(rf, param_grid, cv=10, verbose=2, n_jobs=4)
+    
+    print('Fitting!')
+    grid_search.fit(X_train, y_train)
+
+    # Get the best parameters and the corresponding score
+    best_params = grid_search.best_params_
+    best_score = grid_search.best_score_
+
+    # Train a Random Forest model with the best parameters
     print("TRAINING STARTED!")
     start_time = time.time()
-    rf_model.fit(X_train, y_train)
+    best_rf = RandomForestClassifier(**best_params)
+    best_rf.fit(X_train, y_train)
     end_time = time.time()
     print("TRAINING ENDED!")
-    # Make predictions on the test set
-    y_preds = rf_model.predict(X_test)
+
+    #Evaluate
+    y_preds = best_rf.predict(X_test)
 
     # Calculate metrics
     recall = recall_score(y_test, y_preds)
