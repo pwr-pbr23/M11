@@ -58,8 +58,8 @@ class Model(RobertaForSequenceClassification):
         super(Model, self).__init__(config=config)
         self.encoder = encoder
         self.tokenizer = tokenizer
-        # self.classifier = Net(config)
-        self.classifier = RobertaClassificationHead(config)
+        self.classifier = Net(config)
+        # self.classifier = RobertaClassificationHead(config)
         self.args = args
 
     def forward(self, input_embed=None, labels=None, output_attentions=False, input_ids=None):
