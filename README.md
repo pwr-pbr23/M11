@@ -125,9 +125,9 @@ czyli dla 4-5 tak jak w naszym przypadku będzie trwał 8-10h i wymaga GPU. Na A
 %cd saved_models
 %cd checkpoint-best-f1
 # Our basic LineVul model
-!gdown https://drive.google.com/uc?id=1g1R6WIOh3SkvbSt7yznUNE6uTsOjmDQI
-# Our LineVul + LSTM model
 !gdown https://drive.google.com/uc?id=1Z_L8Heh27tQtoQwXgKUY6DQATZUEJIH6
+# Our LineVul + LSTM model
+!gdown https://drive.google.com/uc?id=1g1R6WIOh3SkvbSt7yznUNE6uTsOjmDQI
 %cd ../../..
 ```
 Skrypt powinien wstawić pliki do wewnętrznego folderu z modelami ```/linevul/saved_models/checkpoint-best-f1```.
