@@ -119,7 +119,7 @@ czyli dla 4-5 tak jak w naszym przypadku będzie trwał 8-10h i wymaga GPU. Na A
   --seed 123456  2>&1 | tee train.log
 %cd ..
 ```
-7. Można również przetestować modele wytrenowane przez nas. Należy podmienić parametr ```--model_name``` na odpowiednią nazwę pliku. Linki do pobrania:
+7. Można również przetestować modele wytrenowane przez nas. Linki do pobrania:
 ```
 %cd linevul
 %cd saved_models
@@ -132,7 +132,7 @@ czyli dla 4-5 tak jak w naszym przypadku będzie trwał 8-10h i wymaga GPU. Na A
 ```
 Skrypt powinien wstawić pliki do wewnętrznego folderu z modelami ```/linevul/saved_models/checkpoint-best-f1```.
 
-8. Testy po wytrenowaniu nowego modelu. Pierwszy parametr ```--model_name``` wskazuje na plik z modelem. ```model.bin`` to domyślna nazwa pod którą zapisuje się model po wytrenowaniu.
+8. Testy po wytrenowaniu nowego modelu. Pierwszy parametr ```--model_name``` wskazuje na plik z modelem. Należy podmienić parametr ```--model_name``` na odpowiednią nazwę pliku, ```model.bin`` to domyślna nazwa pod którą zapisuje się model po wytrenowaniu.
 ```
 %cd linevul
 !python linevul_main.py \
