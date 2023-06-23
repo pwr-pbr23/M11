@@ -81,7 +81,7 @@ Bazowy SVM
 %cd ../..
 ```
 
-5. w pliku linevul_model.py aby użyć naszego modelu należy odkomentować i zakomentować odpowiednie linijki:
+5. w pliku linevul_model.py aby użyć naszego modelu należy odkomentować i zakomentować odpowiednie linijki (wybranie dobrego brancha powinno załatwić sprawę ale mogły wystąpić jakeiś zmiany, Net to klasyfikator bazujący na LSTM):
 
 ```
 Linia 56
