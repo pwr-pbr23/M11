@@ -119,8 +119,20 @@ czyli dla 4-5 tak jak w naszym przypadku będzie trwał 8-10h i wymaga GPU. Na A
   --seed 123456  2>&1 | tee train.log
 %cd ..
 ```
+7. Można również przetestować modele wytrenowane przez nas. Należy podmienić parametr ```--model_name``` na odpowiednią nazwę pliku. Linki do pobrania:
+```
+%cd linevul
+%cd saved_models
+%cd checkpoint-best-f1
+# Our basic LineVul model
+!gdown https://drive.google.com/uc?id=1g1R6WIOh3SkvbSt7yznUNE6uTsOjmDQI
+# Our LineVul + LSTM model
+!gdown https://drive.google.com/uc?id=1Z_L8Heh27tQtoQwXgKUY6DQATZUEJIH6
+%cd ../../..
+```
+Skrypt powinien wstawić pliki do wewnętrznego folderu z modelami ```/linevul/saved_models/checkpoint-best-f1```.
 
-7. Testy po wytrenowaniu nowego modelu. Pierwszy parametr ```--model_name``` wskazuje na plik z modelem.
+8. Testy po wytrenowaniu nowego modelu. Pierwszy parametr ```--model_name``` wskazuje na plik z modelem. ```model.bin`` to domyślna nazwa pod którą zapisuje się model po wytrenowaniu.
 ```
 %cd linevul
 !python linevul_main.py \
@@ -137,18 +149,7 @@ czyli dla 4-5 tak jak w naszym przypadku będzie trwał 8-10h i wymaga GPU. Na A
   --eval_batch_size 256
 %cd ..
 ```
-8. Można również przetestować modele wytrenowane przez nas. Należy podmienić parametr ```--model_name``` na odpowiednią nazwę pliku. Linki do pobrania:
-```
-%cd linevul
-%cd saved_models
-%cd checkpoint-best-f1
-# Our basic LineVul model
-!gdown https://drive.google.com/uc?id=1g1R6WIOh3SkvbSt7yznUNE6uTsOjmDQI
-# Our LineVul + LSTM model
-!gdown https://drive.google.com/uc?id=1Z_L8Heh27tQtoQwXgKUY6DQATZUEJIH6
-%cd ../../..
-```
-Skrypt powinien wstawić pliki do wewnętrznego folderu z modelami ```/linevul/saved_models/checkpoint-best-f1```.
+
 # Wyniki badań
 
 ## Wyniki dla modelu LSTM i 1 epoce uczenia:
