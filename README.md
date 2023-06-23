@@ -135,7 +135,7 @@ czyli dla 4-5 tak jak w naszym przypadku będzie trwał 8-10h i wymaga GPU. Na A
 !gdown https://drive.google.com/uc?id=1Z_L8Heh27tQtoQwXgKUY6DQATZUEJIH6
 %cd ../../..
 ```
-Skrypt powinien wstawić pliki do wewnętrznego folderu z modelami.
+Skrypt powinien wstawić pliki do wewnętrznego folderu z modelami ```/linevul/saved_models/checkpoint-best-f1```.
 # Wyniki badań
 
 ## Wyniki dla modelu LSTM i 1 epoce uczenia:
