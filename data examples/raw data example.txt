@@ -1,0 +1,88 @@
+NO VULNERABILITY EXAMPLE:
+
+function: 
+smb_ofile_delete(void *arg)
+{
+	smb_tree_t	*tree;
+	smb_ofile_t	*of = (smb_ofile_t *)arg;
+
+	SMB_OFILE_VALID(of);
+	ASSERT(of->f_refcnt == 0);
+	ASSERT(of->f_state == SMB_OFILE_STATE_CLOSED);
+	ASSERT(!SMB_OFILE_OPLOCK_GRANTED(of));
+
+	tree = of->f_tree;
+	smb_llist_enter(&tree->t_ofile_list, RW_WRITER);
+	smb_llist_remove(&tree->t_ofile_list, of);
+	smb_idpool_free(&tree->t_fid_pool, of->f_fid);
+	atomic_dec_32(&tree->t_session->s_file_cnt);
+	smb_llist_exit(&tree->t_ofile_list);
+
+	mutex_enter(&of->f_mutex);
+	mutex_exit(&of->f_mutex);
+
+	switch (of->f_ftype) {
+	case SMB_FTYPE_BYTE_PIPE:
+	case SMB_FTYPE_MESG_PIPE:
+		smb_opipe_dealloc(of->f_pipe);
+		of->f_pipe = NULL;
+		break;
+	case SMB_FTYPE_DISK:
+		if (of->f_odir != NULL)
+			smb_odir_release(of->f_odir);
+		smb_node_rem_ofile(of->f_node, of);
+		smb_node_release(of->f_node);
+		break;
+	default:
+		ASSERT(!"f_ftype");
+		break;
+	}
+
+	of->f_magic = (uint32_t)~SMB_OFILE_MAGIC;
+	mutex_destroy(&of->f_mutex);
+	crfree(of->f_cr);
+	smb_user_release(of->f_user);
+	kmem_cache_free(smb_cache_ofile, of);
+}
+
+label: 0;
+
+
+VULNERABILITY EXAMPLE:
+
+function: 
+SYSCALL_DEFINE5(waitid, int, which, pid_t, upid, struct siginfo __user *, infop, int, options, struct rusage __user *, ru)
+{
+struct rusage r;
+struct waitid_info info = {.status = 0};
+long err = kernel_waitid(which, upid, &info, options, ru ? &r : NULL);
+int signo = 0;
+if (err > 0) {
+signo = SIGCHLD;
+err = 0;
+	}
+	if (!err) {
+if (ru && copy_to_user(ru, &r, sizeof(struct rusage)))
+return -EFAULT;
+}
+if (!infop)
+return err;
+
+user_access_begin();
+unsafe_put_user(signo, &infop->si_signo, Efault);
+unsafe_put_user(0, &infop->si_errno, Efault);
+unsafe_put_user(info.cause, &infop->si_code, Efault);
+unsafe_put_user(info.pid, &infop->si_pid, Efault);
+unsafe_put_user(info.uid, &infop->si_uid, Efault);
+unsafe_put_user(info.status, &infop->si_status, Efault);
+user_access_end();
+return err;
+Efault:
+user_access_end();
+return -EFAULT;
+}
+
+label: 1;
+
+
+
