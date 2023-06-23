@@ -29,7 +29,19 @@ Zaleca się uruchomienie programu w środowisku chmurowym z dostępem do GPU.
 Czas potrzebny na przeprowadzenie eksperymentów to około 2h na trenowanie i 15 minut na testy.
 Zalecamy uruchomienie w Google Colab ze środowiskiem GPU.
 
-1. Skolonować repozytorium, a konkretnie branch LineVul - to na nim obecnie pracujemy.
+1. Skolonować repozytorium. Na różnych branchach są aktywne różne modele:
+Bazowy LineVul
+```
+-b LineVul
+```
+Bazowy LSTM
+```
+-b main
+```
+Bazowy SVM
+```
+-b svm
+```
 ```
 !git clone -b LineVul https://github.com/pwr-pbr23/M11.git
 ```
