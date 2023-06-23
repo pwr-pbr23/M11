@@ -82,7 +82,8 @@ class Model(RobertaForSequenceClassification):
         self.args = args
 ```
 
-6. Uruchamianie trenowania:
+6. Uruchamianie trenowania. Proces uruchomiony na google colab trwa ok. 2h na jedną epokę
+czyli dla 4-5 tak jak w naszym przypadku będzie trwał 8-10h i wymaga GPU. Na Azure trwało to 18h dla modelu SVM.
 ```
 %cd linevul
 !python linevul_main.py \
@@ -106,7 +107,7 @@ class Model(RobertaForSequenceClassification):
 %cd ..
 ```
 
-7. Testy:
+7. Testy po wytrenowaniu nowego modelu. Pierwszy parametr ```--model_name``` wskazuje na plik z modelem.
 ```
 %cd linevul
 !python linevul_main.py \
@@ -122,6 +123,10 @@ class Model(RobertaForSequenceClassification):
   --block_size 256 \
   --eval_batch_size 256
 %cd ..
+```
+8. Można również przetestować modele wytrenowane przez nas. Linki do pobrania:
+```
+
 ```
 # Wyniki badań
 
