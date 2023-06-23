@@ -1,19 +1,26 @@
 # Zastosowanie Algorytmów Uczenia Maszynowego w Celu Detekcji Kodu Posiadającego Luki Bezpieczeństwa
 PBR23M11
 
-Paper #1: https://paperswithcode.com/paper/a-hierarchical-deep-neural-network-for
+## [Paper #1](https://paperswithcode.com/paper/a-hierarchical-deep-neural-network-for)
 
-LineVul: https://www.researchgate.net/publication/359402890_LineVul_A_Transformer-based_Line-Level_Vulnerability_Prediction
+## [LineVul paper](https://www.researchgate.net/publication/359402890_LineVul_A_Transformer-based_Line-Level_Vulnerability_Prediction)
 
-Github Project: https://github.com/users/nadolnyjakub/projects/3
+## [Github Project](https://github.com/users/nadolnyjakub/projects/3)
 
-Overleaf: https://www.overleaf.com/project/6401fb8af1232e4844c6bca3
+## [Overleaf](https://www.overleaf.com/project/6401fb8af1232e4844c6bca3)
 
-Colab Paper #1: https://colab.research.google.com/drive/1Mc7X-9XGZCP0gRZx4Xi17qpj9Hk-dvkU?usp=sharing
+## [Colab Paper #1](https://colab.research.google.com/drive/1Mc7X-9XGZCP0gRZx4Xi17qpj9Hk-dvkU?usp=sharing)
 
-Colab LineVul: https://colab.research.google.com/drive/1pbdftiX2dLcQbAuDYeSWUgnxHS8pLxrT?usp=sharing
+## [Colab LineVul](https://colab.research.google.com/drive/1pbdftiX2dLcQbAuDYeSWUgnxHS8pLxrT?usp=sharing)
 
-Colab output(wyuczone modele): https://drive.google.com/drive/folders/1-1w-JAxryaX3ogvdInPaeUQYlSqoTk-B?usp=sharing
+## [Colab output(wyuczone modele)](https://drive.google.com/drive/folders/1-1w-JAxryaX3ogvdInPaeUQYlSqoTk-B?usp=sharing)
+
+# Autorzy
+
+- Jakub Nadolny
+- Kacper Mejsner
+- Ivan Tarasiuk
+- Łukasz Łosieczka
 
 
 # Instrukcja reprodukcji LineVul
@@ -116,8 +123,9 @@ class Model(RobertaForSequenceClassification):
   --eval_batch_size 256
 %cd ..
 ```
+# Wyniki badań
 
-# Wyniki dla modelu LSTM i 1 epoce uczenia:
+## Wyniki dla modelu LSTM i 1 epoce uczenia:
 ```
 ***** Running Test *****
   Num examples = 18864
@@ -130,7 +138,7 @@ test_precision = 0.9569
 test_threshold = 0.5
 ```
 
-# Wyniki dla modelu LSTM i 5 epokach
+## Wyniki dla modelu LSTM i 5 epokach
 ```
 ***** Running Test *****
    Num examples = 18864
@@ -144,7 +152,7 @@ test_threshold = 0.5
  test_threshold = 0.5
  ```
  
- # Wyniki dla modelu Linear SVM i 4 epokach
+ ## Wyniki dla modelu Linear SVM i 4 epokach
 ```
 ***** Running Test *****
    Num examples = 18864
