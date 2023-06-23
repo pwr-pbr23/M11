@@ -126,7 +126,12 @@ czyli dla 4-5 tak jak w naszym przypadku będzie trwał 8-10h i wymaga GPU. Na A
 ```
 8. Można również przetestować modele wytrenowane przez nas. Linki do pobrania:
 ```
-
+%cd linevul
+%cd saved_models
+%cd checkpoint-best-f1
+!gdown https://drive.google.com/uc?id=1g1R6WIOh3SkvbSt7yznUNE6uTsOjmDQI
+!gdown https://drive.google.com/uc?id=1Z_L8Heh27tQtoQwXgKUY6DQATZUEJIH6
+%cd ../../..
 ```
 # Wyniki badań
 
