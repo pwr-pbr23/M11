@@ -1,4 +1,4 @@
-#Reprodukcja M10
+# Reprodukcja M10
 
 Proponowany eksperyment zawiera test który wykonuje 6 powtórzeń dla modelu Bagging:HoeffdingAdaptive i bazy danych nova.
 
