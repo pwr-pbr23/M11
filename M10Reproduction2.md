@@ -2,9 +2,9 @@
 
 Proponowany eksperyment zawiera test, który wykonuje 6 powtórzeń dla modelu Bagging:HoeffdingAdaptive i bazy danych npm.
 
-Komendasłużąca do wywołania eksperymentu w katalogu ```/PythonModel/pythonmodel```.
+Komenda służąca do wywołania eksperymentu w katalogu ```/PythonModel```:
 ```
-poetry run py tester.py -e e1 -csv
+poetry run py pythonmodel/tester.py -e e1 -csv
 ```
 
 Wyniki reprodukcji
