@@ -1,6 +1,6 @@
 # Reprodukcja M10
 
-Proponowany eksperyment zawiera test który wykonuje 6 powtórzeń dla modelu Bagging:HoeffdingAdaptive i bazy danych nova.
+Proponowany eksperyment zawiera test, który wykonuje 6 powtórzeń dla modelu Bagging:HoeffdingAdaptive i bazy danych nova.
 
 Komendasłużąca do wywołania eksperymentu w katalogu ```/PythonModel/pythonmodel```.
 ```
