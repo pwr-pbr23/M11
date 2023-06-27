@@ -1,6 +1,11 @@
-#header
+#Reprodukcja M10
 
 Proponowany eksperyment zawiera test który wykonuje 6 powtórzeń dla modelu Bagging:HoeffdingAdaptive i bazy danych nova.
+
+Komendasłużąca do wywołania eksperymentu w katalogu ```/PythonModel/pythonmodel```.
+```
+poetry run py tester.py -e e1 -csv
+```
 
 Wyniki reprodukcji
 | Iteration | MCC | G-Mean | Time-Elapsed |
@@ -16,3 +21,5 @@ Wyniki zamieszczone przez autorów
 | MCC | G-Mean |
 | --- | ------ |
 | 0.484 | 0.7457 |
+
+Wyniki z jakiegoś powodu znaczenie różnią się od tych opublikowanych przez autorów.
